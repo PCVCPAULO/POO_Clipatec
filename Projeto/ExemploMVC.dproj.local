@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2020/03/04 19:31:40.000.697,=C:\Users\MARCELO\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2020/03/04 19:34:17.000.495,=C:\Users\MARCELO\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2020/03/04 19:35:08.000.970,D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\view\uFrmPrincipal.dfm=C:\Users\MARCELO\Documents\Embarcadero\Studio\Projects\Unit2.dfm</Transaction>
+    <Transaction>2020/03/04 19:35:08.000.970,D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\view\uFrmPrincipal.pas=C:\Users\MARCELO\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2020/03/04 19:35:26.000.069,D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\ExemploMVC.dproj=C:\Users\MARCELO\Documents\Embarcadero\Studio\Projects\Project2.dproj</Transaction>
+    <Transaction>2020/03/04 19:36:30.000.637,=D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\Unit1.pas</Transaction>
+    <Transaction>2020/03/04 19:37:09.000.330,D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\view\uFrmCliente.pas=D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\Unit1.pas</Transaction>
+    <Transaction>2020/03/04 19:37:09.000.330,D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\view\uFrmCliente.dfm=D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\Unit1.dfm</Transaction>
+    <Transaction>2020/03/04 20:26:17.000.662,=D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\Unit1.pas</Transaction>
+    <Transaction>2020/03/04 20:26:28.000.776,D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\model\uClienteModel.pas=D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\Unit1.pas</Transaction>
+    <Transaction>2020/03/04 20:32:40.000.217,=D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\Unit1.pas</Transaction>
+    <Transaction>2020/03/04 20:32:54.000.935,D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\controller\uClienteController.pas=D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\Unit1.pas</Transaction>
+    <Transaction>2020/03/04 20:37:27.000.919,=D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\Unit1.pas</Transaction>
+    <Transaction>2020/03/04 20:39:05.000.007,=D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\Unit1.pas</Transaction>
+    <Transaction>2020/03/04 20:40:21.000.148,D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\dao\uDmConexao.dfm=D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\Unit1.dfm</Transaction>
+    <Transaction>2020/03/04 20:40:21.000.148,D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\dao\uDmConexao.pas=D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\Unit1.pas</Transaction>
+    <Transaction>2020/03/04 20:47:06.000.196,=D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\Unit1.pas</Transaction>
+    <Transaction>2020/03/04 20:47:21.000.570,D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\dao\uDmCliente.dfm=D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\Unit1.dfm</Transaction>
+    <Transaction>2020/03/04 20:47:21.000.570,D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\dao\uDmCliente.pas=D:\MarceloBorges\Delphi\POO_Clipatec\Projeto\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>

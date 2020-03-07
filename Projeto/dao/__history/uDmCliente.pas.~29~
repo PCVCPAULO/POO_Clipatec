@@ -1,0 +1,117 @@
+unit uDmCliente;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Data.DB, ZAbstractRODataset,
+  ZAbstractDataset, ZDataset, Datasnap.DBClient, Datasnap.Provider,
+  uDmConexao, uClienteModel;
+
+type
+  TdmCliente = class(TDataModule)
+    qryPesquisar: TZQuery;
+    qryInserir: TZQuery;
+    qryAlterar: TZQuery;
+    qryExcluir: TZQuery;
+    dspPesquisar: TDataSetProvider;
+    cdsPesquisar: TClientDataSet;
+    cdsPesquisarID: TIntegerField;
+    cdsPesquisarNOME: TWideStringField;
+    cdsPesquisarTELEFONE: TWideStringField;
+    qryAuxiliar: TZQuery;
+  private
+    { Private declarations }
+    constructor Create; override;
+  public
+    { Public declarations }
+    procedure Pesquisar(sNome: string);
+    procedure CarregarCliente(oCliente: TCliente; iCliente: integer);
+    function Inserir(oCliente: TCliente; out sErro: string): Boolean;
+    function Alterar(oCliente: TCliente; out sErro: string): Boolean;
+    function Excluir(iCodigo: integer; out sErro: string): Boolean;
+  end;
+
+var
+  dmCliente: TdmCliente;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{ TdmCliente }
+
+function TdmCliente.Alterar(oCliente: TCliente; out sErro: string): Boolean;
+begin
+  qryAlterar.Params[0].AsString := oCliente.Nome;
+  qryAlterar.Params[1].AsString := oCliente.Tipo;
+  qryAlterar.Params[2].AsString := oCliente.Documento;
+  qryAlterar.Params[3].AsString := oCliente.Telefone;
+  qryAlterar.Params[4].AsInteger := oCliente.ID;
+  try
+    qryAlterar.ExecSQL;
+    Result := True;
+  except on E: Exception do
+    begin
+      Result := False;
+      sErro := 'Ocorreu um erro ao alterar o cliente: ' + sLineBreak + E.Message;
+    end;
+  end;
+end;
+
+procedure TdmCliente.CarregarCliente(oCliente: TCliente; iCliente: integer);
+begin
+  qryAuxiliar.Close;
+  qryAuxiliar.SQL.Clear;
+  qryAuxiliar.SQL.Add('Select * from Cliente where id = :id');
+  qryAuxiliar.Params[0].AsInteger := iCliente;
+  qryAuxiliar.Open;
+
+  oCliente.ID := qryAuxiliar.FieldByName('ID').AsInteger;
+  oCliente.Nome := qryAuxiliar.FieldByName('Nome').AsString;
+  oCliente.Tipo := qryAuxiliar.FieldByName('Tipo').AsString;
+  oCliente.Documento := qryAuxiliar.FieldByName('Documento').AsString;
+  oCliente.Telefone := qryAuxiliar.FieldByName('Telefone').AsString;
+
+end;
+
+constructor TdmCliente.Create;
+begin
+  inherited;
+  qryAuxiliar.Connection := dmConexao.Conexao;
+end;
+
+function TdmCliente.Excluir(iCodigo: integer; out sErro: string): Boolean;
+begin
+  qryExcluir.Params[0].AsInteger := iCodigo;
+end;
+
+function TdmCliente.Inserir(oCliente: TCliente; out sErro: string): Boolean;
+begin
+  qryInserir.Params[0].AsString := oCliente.Nome;
+  qryInserir.Params[1].AsString := oCliente.Tipo;
+  qryInserir.Params[2].AsString := oCliente.Documento;
+  qryInserir.Params[3].AsString := oCliente.Telefone;
+  try
+    qryInserir.ExecSQL;
+    Result := True;
+  except on E: Exception do
+    begin
+      Result := False;
+      sErro := 'Ocorreu um erro ao inserir o cliente: ' + sLineBreak + E.Message;
+    end;
+  end;
+end;
+
+procedure TdmCliente.Pesquisar(sNome: string);
+begin
+  if cdsPesquisar.Active then
+    cdsPesquisar.Close;
+
+  cdsPesquisar.Params[0].AsString := '%' + sNome + '%';
+  cdsPesquisar.Open;
+  cdsPesquisar.First;
+end;
+
+end.

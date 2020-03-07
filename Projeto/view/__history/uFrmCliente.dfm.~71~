@@ -1,0 +1,326 @@
+object frmCliente: TfrmCliente
+  Left = 0
+  Top = 0
+  Caption = 'Clientes'
+  ClientHeight = 380
+  ClientWidth = 595
+  Color = clBtnFace
+  DefaultMonitor = dmMainForm
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  FormStyle = fsMDIChild
+  KeyPreview = True
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  Visible = True
+  WindowState = wsMaximized
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object pnlRodape: TPanel
+    Left = 0
+    Top = 339
+    Width = 595
+    Height = 41
+    Align = alBottom
+    BevelOuter = bvNone
+    TabOrder = 1
+    DesignSize = (
+      595
+      41)
+    object btnFechar: TButton
+      Left = 504
+      Top = 8
+      Width = 75
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Fechar'
+      TabOrder = 0
+      OnClick = btnFecharClick
+    end
+  end
+  object pgcPrincipal: TPageControl
+    Left = 0
+    Top = 0
+    Width = 595
+    Height = 339
+    ActivePage = tbsManutencao
+    Align = alClient
+    TabOrder = 0
+    object tbsPesquisa: TTabSheet
+      Caption = 'tbsPesquisa'
+      object pnlFiltro: TPanel
+        Left = 0
+        Top = 0
+        Width = 587
+        Height = 65
+        Align = alTop
+        BevelOuter = bvNone
+        Color = clSilver
+        ParentBackground = False
+        TabOrder = 0
+        object edtPesquisa: TLabeledEdit
+          Left = 32
+          Top = 24
+          Width = 265
+          Height = 21
+          EditLabel.Width = 90
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Pesquisa por nome'
+          TabOrder = 0
+        end
+        object btnPesquisar: TButton
+          Left = 312
+          Top = 24
+          Width = 75
+          Height = 25
+          Caption = 'Pesquisar'
+          TabOrder = 1
+          OnClick = btnPesquisarClick
+        end
+      end
+      object pnlBtnPesq: TPanel
+        Left = 0
+        Top = 264
+        Width = 587
+        Height = 47
+        Align = alBottom
+        BevelOuter = bvNone
+        Color = clSilver
+        ParentBackground = False
+        TabOrder = 2
+        DesignSize = (
+          587
+          47)
+        object lblQtdeRegistros: TLabel
+          Left = 8
+          Top = 22
+          Width = 4
+          Height = 16
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object btnNovo: TButton
+          Left = 338
+          Top = 14
+          Width = 75
+          Height = 25
+          Anchors = [akTop, akRight]
+          Caption = 'Novo'
+          TabOrder = 0
+          OnClick = btnNovoClick
+        end
+        object btnDetalhar: TButton
+          Left = 419
+          Top = 14
+          Width = 75
+          Height = 25
+          Anchors = [akTop, akRight]
+          Caption = 'Detalhar'
+          TabOrder = 1
+          OnClick = btnDetalharClick
+        end
+        object btnExcluir: TButton
+          Left = 500
+          Top = 14
+          Width = 75
+          Height = 25
+          Anchors = [akTop, akRight]
+          Caption = 'Excluir'
+          TabOrder = 2
+          OnClick = btnExcluirClick
+        end
+      end
+      object pnlGrid: TPanel
+        Left = 0
+        Top = 65
+        Width = 587
+        Height = 199
+        Align = alClient
+        BevelOuter = bvNone
+        Color = clSilver
+        ParentBackground = False
+        TabOrder = 1
+        ExplicitLeft = 120
+        ExplicitTop = 96
+        ExplicitWidth = 185
+        ExplicitHeight = 41
+        object grdDados: TDBGrid
+          Left = 0
+          Top = 0
+          Width = 587
+          Height = 199
+          Align = alClient
+          DataSource = dsrPesq
+          DrawingStyle = gdsGradient
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -11
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'ID'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'NOME'
+              Width = 350
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'TELEFONE'
+              Visible = True
+            end>
+        end
+        object pnlPesquisa: TPanel
+          Left = 112
+          Top = 28
+          Width = 431
+          Height = 143
+          Align = alCustom
+          BevelOuter = bvNone
+          TabOrder = 1
+        end
+      end
+    end
+    object tbsManutencao: TTabSheet
+      Caption = 'tbsManutencao'
+      ImageIndex = 1
+      object Label1: TLabel
+        Left = 32
+        Top = 99
+        Width = 20
+        Height = 13
+        Caption = 'Tipo'
+      end
+      object edtCodigo: TLabeledEdit
+        Left = 32
+        Top = 24
+        Width = 57
+        Height = 21
+        EditLabel.Width = 33
+        EditLabel.Height = 13
+        EditLabel.Caption = 'C'#243'digo'
+        ReadOnly = True
+        TabOrder = 0
+      end
+      object edtNome: TLabeledEdit
+        Left = 32
+        Top = 66
+        Width = 378
+        Height = 21
+        EditLabel.Width = 27
+        EditLabel.Height = 13
+        EditLabel.Caption = 'Nome'
+        TabOrder = 1
+      end
+      object cbxTipo: TComboBox
+        Left = 32
+        Top = 116
+        Width = 97
+        Height = 21
+        ItemIndex = 0
+        TabOrder = 2
+        Text = 'Pessoa F'#237'sica'
+        Items.Strings = (
+          'Pessoa F'#237'sica'
+          'Pessoa Jur'#237'dica')
+      end
+      object edtDocumento: TLabeledEdit
+        Left = 135
+        Top = 116
+        Width = 122
+        Height = 21
+        EditLabel.Width = 54
+        EditLabel.Height = 13
+        EditLabel.Caption = 'Documento'
+        TabOrder = 3
+      end
+      object edtTelefone: TLabeledEdit
+        Left = 265
+        Top = 116
+        Width = 145
+        Height = 21
+        EditLabel.Width = 42
+        EditLabel.Height = 13
+        EditLabel.Caption = 'Telefone'
+        TabOrder = 4
+      end
+      object Panel1: TPanel
+        Left = 0
+        Top = 264
+        Width = 587
+        Height = 47
+        Align = alBottom
+        BevelOuter = bvNone
+        Color = clSilver
+        ParentBackground = False
+        TabOrder = 5
+        DesignSize = (
+          587
+          47)
+        object btnListar: TButton
+          Left = 250
+          Top = 9
+          Width = 75
+          Height = 25
+          Anchors = [akTop, akRight]
+          Caption = 'Listar'
+          TabOrder = 0
+          OnClick = btnListarClick
+        end
+        object btnAlterar: TButton
+          Left = 333
+          Top = 9
+          Width = 75
+          Height = 25
+          Anchors = [akTop, akRight]
+          Caption = 'Alterar'
+          TabOrder = 1
+          OnClick = btnAlterarClick
+        end
+        object btnGravar: TButton
+          Left = 417
+          Top = 9
+          Width = 75
+          Height = 25
+          Anchors = [akTop, akRight]
+          Caption = 'Gravar'
+          TabOrder = 2
+          OnClick = btnGravarClick
+        end
+        object btnCancelar: TButton
+          Left = 498
+          Top = 9
+          Width = 75
+          Height = 25
+          Anchors = [akTop, akRight]
+          Caption = 'Cancelar'
+          TabOrder = 3
+          OnClick = btnCancelarClick
+        end
+      end
+    end
+  end
+  object dsrPesq: TDataSource
+    DataSet = dmCliente.cdsPesquisar
+    Left = 252
+    Top = 336
+  end
+end

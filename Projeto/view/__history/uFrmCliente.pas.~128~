@@ -1,0 +1,376 @@
+unit uFrmCliente;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.ExtCtrls, Vcl.StdCtrls,
+  Vcl.ComCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids, uClienteController, uClienteModel,
+  uDmCliente, System.StrUtils;
+
+type
+  TOperacao = (opNovo, opAlterar, opNavegar);
+  TfrmCliente = class(TForm)
+    pnlRodape: TPanel;
+    btnFechar: TButton;
+    pgcPrincipal: TPageControl;
+    tbsPesquisa: TTabSheet;
+    tbsManutencao: TTabSheet;
+    pnlFiltro: TPanel;
+    edtPesquisa: TLabeledEdit;
+    btnPesquisar: TButton;
+    pnlBtnPesq: TPanel;
+    btnNovo: TButton;
+    btnDetalhar: TButton;
+    btnExcluir: TButton;
+    dsrPesq: TDataSource;
+    edtCodigo: TLabeledEdit;
+    edtNome: TLabeledEdit;
+    cbxTipo: TComboBox;
+    Label1: TLabel;
+    edtDocumento: TLabeledEdit;
+    edtTelefone: TLabeledEdit;
+    Panel1: TPanel;
+    btnListar: TButton;
+    btnAlterar: TButton;
+    btnGravar: TButton;
+    btnCancelar: TButton;
+    pnlGrid: TPanel;
+    grdDados: TDBGrid;
+    pnlPesquisa: TPanel;
+    lblQtdeRegistros: TLabel;
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnFecharClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnPesquisarClick(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnDetalharClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure btnListarClick(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    FMenuItem: TMenuItem;
+    FOperacao: TOperacao;
+    procedure Novo;
+    procedure Detalhar;
+    procedure Configuracoes;
+    procedure CarregarCliente;
+    procedure Listar;
+    procedure Alterar;
+    procedure Excluir;
+    procedure Inserir;
+    procedure Gravar;
+    procedure HabilitarControles(sOperacao: TOperacao);
+    procedure SetMenuItem(const Value: TMenuItem);
+    function Pesquisar: TDataSet;
+    procedure ConfiguracaoPnlPesquisa;
+    { Private declarations }
+  public
+    { Public declarations }
+    property MenuItem: TMenuItem read FMenuItem write SetMenuItem;
+  end;
+
+var
+  frmCliente: TfrmCliente;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmCliente.Alterar;
+var
+  oClienteController: TClienteController;
+  oCliente: TCliente;
+  sErro: string;
+begin
+  oClienteController := TClienteController.Create;
+  oCliente := TCliente.Create;
+  try
+    oCliente.ID := StrToInt(edtCodigo.Text);
+    oCliente.Nome := edtNome.Text;
+    oCliente.Tipo := IfThen(cbxTipo.ItemIndex = 0, 'F', 'J');
+    oCliente.Documento := edtDocumento.Text;
+    oCliente.Telefone := edtTelefone.Text;
+    if not oClienteController.Alterar(oCliente, sErro) then
+      raise Exception.Create(sErro)
+    else
+      Application.MessageBox('Alterado com sucesso.', 'Atenção', MB_OK +
+        MB_ICONWARNING);
+
+  finally
+    oCliente.Free;
+    oClienteController.Free;
+  end;
+end;
+
+procedure TfrmCliente.btnAlterarClick(Sender: TObject);
+begin
+  FOperacao := opAlterar;
+  HabilitarControles(opAlterar);
+end;
+
+procedure TfrmCliente.btnCancelarClick(Sender: TObject);
+begin
+  HabilitarControles(opNavegar);
+  pgcPrincipal.ActivePage := tbsPesquisa;
+end;
+
+procedure TfrmCliente.btnDetalharClick(Sender: TObject);
+begin
+  Detalhar;
+end;
+
+procedure TfrmCliente.btnExcluirClick(Sender: TObject);
+begin
+  Excluir;
+end;
+
+procedure TfrmCliente.btnFecharClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfrmCliente.btnGravarClick(Sender: TObject);
+begin
+  Gravar;
+  HabilitarControles(opNavegar);
+  pgcPrincipal.ActivePage := tbsPesquisa;
+end;
+
+procedure TfrmCliente.btnListarClick(Sender: TObject);
+begin
+  Listar;
+end;
+
+procedure TfrmCliente.btnNovoClick(Sender: TObject);
+begin
+  Novo;
+  HabilitarControles(opNovo);
+end;
+
+procedure TfrmCliente.btnPesquisarClick(Sender: TObject);
+begin
+  Pesquisar;
+  ConfiguracaoPnlPesquisa;
+end;
+
+procedure TfrmCliente.CarregarCliente;
+var
+  oClienteController: TClienteController;
+  oCliente: TCliente;
+begin
+  oClienteController := TClienteController.Create;
+  oCliente := TCliente.Create;
+  try
+    oClienteController.CarregarCliente(oCliente, dsrPesq.DataSet.FieldByName('id').AsInteger);
+    edtCodigo.Text := IntToStr(oCliente.ID);
+    edtNome.Text := oCliente.Nome;
+    cbxTipo.ItemIndex := StrToInt(IfThen(oCliente.Tipo = 'F', '0', '1'));
+    edtDocumento.Text := oCliente.Documento;
+    edtTelefone.Text := oCliente.Telefone;
+  finally
+    oCliente.Free;
+    oClienteController.Free;
+  end;
+end;
+
+procedure TfrmCliente.Configuracoes;
+begin
+  pgcPrincipal.Pages[0].TabVisible := False;
+  pgcPrincipal.Pages[1].TabVisible := False;
+  pgcPrincipal.ActivePage := tbsPesquisa;
+end;
+
+procedure TfrmCliente.Detalhar;
+begin
+  FOperacao := opNavegar;
+  CarregarCliente;
+  pgcPrincipal.ActivePage := tbsManutencao;
+end;
+
+procedure TfrmCliente.Excluir;
+var
+  oClienteController: TClienteController;
+  sErro: string;
+begin
+  oClienteController := TClienteController.Create;
+
+  try
+    if (dmCliente.cdsPesquisar.Active) and (dmCliente.qryPesquisar.RecordCount > 0) then
+    begin
+      if Application.MessageBox('Deseja realmente excluir o Cliente?',
+        'Atenção', MB_YESNO + MB_ICONWARNING) = IDYES then
+      begin
+        if not oClienteController.Excluir(StrToInt(edtCodigo.Text), sErro) then
+        begin
+          raise Exception.Create(sErro);
+          oClienteController.Pesquisar(edtPesquisa.Text);
+        end
+        else
+          Application.MessageBox('Excluído com sucesso.', 'Atenção', MB_OK +
+            MB_ICONWARNING);
+      end;
+    end
+    else
+      raise Exception.Create('Não há registro para ser excluído.');
+
+  finally
+    oClienteController.Free;
+  end;
+
+end;
+
+procedure TfrmCliente.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FMenuItem.Enabled := True;
+  FreeAndNil(dmCliente);
+  frmCliente := nil;
+  Action := caFree;
+end;
+
+procedure TfrmCliente.FormCreate(Sender: TObject);
+begin
+  dmCliente := TdmCliente.Create(nil);
+  ConfiguracaoPnlPesquisa;
+end;
+
+procedure TfrmCliente.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    Perform(WM_NEXTDLGCTL,0,0);
+  end;
+end;
+
+procedure TfrmCliente.FormShow(Sender: TObject);
+begin
+  Configuracoes;
+end;
+
+procedure TfrmCliente.Gravar;
+var
+  oClienteController: TClienteController;
+begin
+  oClienteController := TClienteController.Create;
+  try
+    case FOperacao of
+      opNovo: Inserir;
+      opAlterar: Alterar;
+    end;
+    oClienteController.Pesquisar(edtPesquisa.Text);
+  finally
+    oClienteController.Free;
+  end;
+end;
+
+procedure TfrmCliente.HabilitarControles(sOperacao: TOperacao);
+begin
+  case sOperacao of
+    opNovo,
+    opAlterar:
+    begin
+      edtNome.Enabled := True;
+      cbxTipo.Enabled := True;
+      edtDocumento.Enabled := True;
+      edtTelefone.Enabled := True;
+      btnListar.Enabled := False;
+      btnFechar.Enabled := False;
+      btnAlterar.Enabled := False;
+      btnGravar.Enabled := True;
+      btnCancelar.Enabled := True;
+      edtNome.SetFocus;
+    end;
+    opNavegar:
+    begin
+      edtNome.Enabled := False;
+      cbxTipo.Enabled := False;
+      edtDocumento.Enabled := False;
+      edtTelefone.Enabled := False;
+      btnListar.Enabled := True;
+      btnFechar.Enabled := True;
+      btnAlterar.Enabled := True;
+      btnGravar.Enabled := False;
+      btnCancelar.Enabled := False;
+    end;
+  end;
+end;
+
+procedure TfrmCliente.Inserir;
+var
+  oClienteController: TClienteController;
+  oCliente: TCliente;
+  sErro: string;
+begin
+  oClienteController := TClienteController.Create;
+  oCliente := TCliente.Create;
+  try
+    oCliente.ID := 0;
+    oCliente.Nome := edtNome.Text;
+    oCliente.Tipo := IfThen(cbxTipo.ItemIndex = 0, 'F', 'J');
+    oCliente.Documento := edtDocumento.Text;
+    oCliente.Telefone := edtTelefone.Text;
+    if not oClienteController.Inserir(oCliente, sErro) then
+      raise Exception.Create(sErro)
+    else
+      Application.MessageBox('Inserido com sucesso.', 'Atenção', MB_OK +
+        MB_ICONWARNING);
+
+  finally
+    oCliente.Free;
+    oClienteController.Free;
+  end;
+end;
+
+procedure TfrmCliente.Listar;
+begin
+  pgcPrincipal.ActivePage := tbsManutencao;
+end;
+
+procedure TfrmCliente.Novo;
+begin
+  FOperacao := opNovo;
+  pgcPrincipal.ActivePage := tbsManutencao;
+end;
+
+function TfrmCliente.Pesquisar: TDataSet;
+var
+  oClienteController: TClienteController;
+begin
+  oClienteController := TClienteController.Create;
+  try
+    oClienteController.Pesquisar(edtPesquisa.Text);
+  finally
+    oClienteController.Free;
+  end;
+
+end;
+
+procedure TfrmCliente.SetMenuItem(const Value: TMenuItem);
+begin
+  FMenuItem := Value;
+end;
+
+procedure TfrmCliente.ConfiguracaoPnlPesquisa;
+begin
+  if grdDados.DataSource.DataSet.RecordCount > 0 then
+  begin
+    pnlPesquisa.Align :=  alClient;
+    pnlPesquisa.Visible := False;
+    pnlPesquisa.SendToBack;
+    lblQtdeRegistros.Caption := ' Total de Registros: ' + IntToStr(grdDados.DataSource.DataSet.RecordCount);
+  end
+  else
+  begin
+    pnlPesquisa.Align :=  alClient;
+    pnlPesquisa.Visible := True;
+    lblQtdeRegistros.Caption := 'Total de Registros: 0';
+    pnlPesquisa.BringToFront;
+  end;
+end;
+
+end.

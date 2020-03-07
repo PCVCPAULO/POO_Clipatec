@@ -1,0 +1,16 @@
+program ExemploMVC;
+
+uses
+  Vcl.Forms,
+  uFrmPrincipal in 'view\uFrmPrincipal.pas' {frmPrincipal},
+  uFrmCliente in 'view\uFrmCliente.pas' {frmCliente};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.CreateForm(TfrmCliente, frmCliente);
+  Application.Run;
+end.

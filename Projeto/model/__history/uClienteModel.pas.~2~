@@ -1,0 +1,18 @@
+unit uClienteModel;
+
+interface
+
+type
+  TCliente = class
+  private
+    FID: Integer;
+
+  public
+    property ID: Integer read FID write FID;
+  end;
+
+implementation
+
+
+
+end.
